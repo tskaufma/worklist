@@ -1,0 +1,202 @@
+<div class="row">
+	<div class="large-12 columns">
+		<p></p>
+	</div>
+</div>
+
+<div class="row">
+	<div class="medium-12 columns">
+		<h5>&lt;Project Name&gt; / {{newTask.key}}</h5>
+	</div>
+</div>
+
+<div class="row">
+	<div class="medium-12 columns">
+		<h2>{{newTask.title}}</h2>
+	</div>
+</div>
+
+<div class="row">
+	<div class="medium-12 columns">
+		<a ng-click="editTaskWindow()" class="button secondary postfix">Edit</a>
+	</div>
+</div>
+
+<div id="editTaskModal" class="reveal-modal" data-reveal>
+              <h2>Edit Task</h2>
+              <form ng-submit="editTask()">
+              	  <div ng-include="'app/partials/task-form.html'" >
+              	  </div>
+                  <div class="row">
+                      <div class="large-12 columns">
+                          <div class="right">
+                              <input type="submit" value="Save" class="button"/>
+                          </div>
+                      </div>
+                  </div>
+              </form>
+              <a class="close-reveal-modal">&#215;</a>
+            </div>
+
+
+<div class="row">
+	<div class="large-8 medium-12 columns">
+		<div class="row">
+			<div class="large-3 small-4 columns">
+				<h4 class="subheader">Summary</h4>
+			</div>
+			<div class="large-9 small-8 columns">
+				<hr/>
+			</div>
+		</div>
+		<div class="row">
+			<div class="medium-6 small-12 columns">
+				<div class="row">
+					<div class="small-6 columns">
+						<span>Priority:</span>
+					</div>
+					<div class="small-6 columns">
+						<span>{{newTask.priority}}</span>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="small-6 columns">
+						<span>Tags:</span>
+					</div>
+					<div class="small-6 columns">
+						<span>...</span>
+					</div>
+				</div>
+
+			</div>
+			<div class="medium-6 small-12 columns">
+				<div class="row">
+					<div class="small-6 columns">
+						<span>Status:</span>
+					</div>
+					<div class="small-6 columns">
+						<span>{{newTask.status}}</span>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="small-6 columns">
+						<span>Resolution:</span>
+					</div>
+					<div class="small-6 columns">
+						<span>{{newTask.resolution}}</span>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="large-12 columns">
+				<p></p>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="large-3 small-4 columns">
+				<h4 class="subheader">Description</h4>
+			</div>
+			<div class="large-9 small-8 columns">
+				<hr/>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="large-12 columns">
+				{{newTask.text}}
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="large-12 columns">
+				<p></p>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="large-3 small-4 columns">
+				<h4 class="subheader">History</h4>
+			</div>
+			<div class="large-9 small-8 columns">
+				<hr/>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="large-12 columns">
+				<!-- mm-foundation aka Angular Foundation directives -->
+				<tabset>
+					<tab>
+						<tab-heading>
+							Comments
+						</tab-heading>
+						No Comments Yet.
+					</tab>
+					<tab>
+						<tab-heading>
+							Changes
+						</tab-heading>
+						No changes yet.
+					</tab>
+					<tab heading="All">
+						None.
+					</tab>
+				</tabset>
+			</div>
+		</div>
+
+	</div>
+	<div class="large-4 columns">
+		<div class="row">
+			<div class="small-12 columns">
+		<div class="panel">
+			<h4>People</h4>
+			<div class="row">
+				<div class="medium-6 small-12 columns">
+					<span>Assignee:</span>
+				</div>
+				<div class="medium-6 small-12 columns">
+					<span>{{newTask.assignee}}</span>
+				</div>
+			</div>
+			<div class="row">
+				<div class="medium-6 small-12 columns">
+					<span>Contacts:</span>
+				</div>
+				<div class="medium-6 small-12 columns">
+					<span>Sammy Smith (Business Analyst)</span>
+				</div>
+			</div>
+		</div>
+			</div>
+		</div>
+				<div class="row">
+			<div class="small-12 columns">
+		<div class="panel">
+			<h4>Dates</h4>
+			<div class="row">
+				<div class="medium-6 small-12 columns">
+					<span>Created:</span>
+				</div>
+				<div class="medium-6 small-12 columns">
+					<span>{{newTask.created | date:'medium'}}</span>
+				</div>
+			</div>
+			<div class="row">
+				<div class="medium-6 small-12 columns">
+					<span>Updated:</span>
+				</div>
+				<div class="medium-6 small-12 columns">
+					<span>{{newTask.updated | parseDate | fromNow}}</span>
+				</div>
+			</div>
+		</div>
+			</div>
+		</div>
+	</div>
+</div>

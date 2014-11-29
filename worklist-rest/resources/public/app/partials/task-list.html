@@ -1,0 +1,151 @@
+<div class="row">
+		<div class="large-4 medium-12 columns">
+			<h1>Tasks</h1>
+		</div>
+		<div class="large-8 medium-12 columns">
+
+			<form ng-submit="addTask()">
+				<div class="row">
+					<div class="large-12 columns">
+						<p></p>
+					</div>
+				</div>
+				<div class="row">
+					<div class="medium-8 columns">
+						<input type="text" ng-model="taskText" placeholder="Quick Task Title"/>
+					</div>
+					<div class="medium-2 columns">
+						<input type="submit" value="Quick Task" class="button postfix" />
+					</div>
+					<div class="medium-2 columns">
+					    <a ng-click="newTaskWindow()" class="button secondary postfix">New Task</a>
+					</div>
+				</div>
+
+			</form>
+			
+			<div id="newTaskModal" class="reveal-modal" data-reveal>
+              <h2>New Task</h2>
+              <form ng-submit="addTask()">
+              	  <div ng-include="'app/partials/task-form.html'" >
+              	  </div>
+                  <div class="row">
+                      <div class="large-12 columns">
+                          <div class="right">
+                              <input type="submit" value="Save" class="button"/>
+                          </div>
+                      </div>
+                  </div>
+              </form>
+              <a class="close-reveal-modal">&#215;</a>
+            </div>
+
+		</div>
+	</div>
+
+<!-- Decide what to do with Project info later.
+	<div class="row">
+		<div class="large-12 columns">
+			<div class="panel">
+				<h3>Project</h3>
+				<p>Project Description</p>
+			</div>
+		</div>
+	</div>
+-->
+
+	<div class="row">
+		<div class="large-12 medium-12 columns">
+			<div class="row">
+				<div class="medium-6 small-12 columns">
+					<h5>Tasks {{pager.pageStart()}} to {{pager.pageEnd()}} of {{tasks.length}} tasks.</h5>
+				</div>
+				<div class="medium-6 small-12 columns">
+					<div class="right">
+						<ul class="pagination">
+							<li class="arrow" ng-class="{unavailable: !pager.canPrev()}">
+								<a href ng-click="pager.prevPage()">&laquo;</a>
+							</li>
+							<li ng-repeat="n in range(pager.numberOfPages())" ng-class="{current: n==pager.currentPage}">
+								<a href ng-bind="n+1" ng-click="pager.currentPage=n">1</a>
+							</li>
+							<li class="arrow" ng-class="{unavailable: !pager.canNext()}">
+								<a href ng-click="pager.nextPage()">&raquo;</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+			<!-- Grid Example -->
+
+			<div class="row">
+				<div class="large-12 columns">
+					<table style="width:100%">
+						<thead>
+							<tr>
+								<th>Key</th>
+								<th>Name</th>
+								<th>Assignee</th>
+								<th>Priority</th>
+								<th>Status</th>
+								<th>Resolution</th>
+								<th>Created</th>
+								<th>Updated</th>
+								<th>Tags</th>
+							</tr>
+						</thead>
+						<tbody>
+							<!--
+					<tr>
+						<td>GQ-101</td>
+						<td>Review GQuote Priorities with Greg</td>
+						<td>Trevor Kaufman</td>
+						<td>Medium</td>
+						<td>Not Started</td>
+						<td>Unresolved</td>
+						<td>Thurs Nov 27th, 2014</td>
+						<td>Today</td>
+						<td>Greg, Discussions, In-Person</td>
+					</tr>
+					-->
+							<tr ng-repeat="task in tasks | startFrom:pager.currentPage*pager.pageSize | limitTo:pager.pageSize">
+								<td><a ng-href="#/task/{{task.id}}">{{task.key}}</a></td>
+								<td><a ng-href="#/task/{{task.id}}">{{task.title}}</a></td>
+								<td>{{task.assignee}}</td>
+								<td>{{task.priority}}</td>
+								<td>{{task.status}}</td>
+								<td>{{task.resolution}}</td>
+								<td>{{task.created | date:'mediumDate'}}</td>
+								<td>{{task.updated | parseDate | fromNow}}</td>
+								<td>...</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+			
+			<div class="row">
+				<div class="medium-6 small-12 columns">
+					<h5>Tasks {{pager.pageStart()}} to {{pager.pageEnd()}} of {{tasks.length}} tasks.</h5>
+				</div>
+				<div class="medium-6 small-12 columns">
+					<div class="right">
+						<ul class="pagination">
+							<li class="arrow" ng-class="{unavailable: !pager.canPrev()}">
+								<a href ng-click="pager.prevPage()">&laquo;</a>
+							</li>
+							<li ng-repeat="n in range(pager.numberOfPages())" ng-class="{current: n==pager.currentPage}">
+								<a href ng-bind="n+1" ng-click="pager.currentPage=n">1</a>
+							</li>
+							<li class="arrow" ng-class="{unavailable: !pager.canNext()}">
+								<a href ng-click="pager.nextPage()">&raquo;</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+
+			<hr />
+
+		</div>
+	</div>
