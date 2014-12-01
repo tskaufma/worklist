@@ -109,8 +109,8 @@
 					</tr>
 					-->
 							<tr ng-repeat="task in tasks | startFrom:pager.currentPage*pager.pageSize | limitTo:pager.pageSize">
-								<td><a ng-href="#/task/{{task.id}}">{{task.key}}</a></td>
-								<td><a ng-href="#/task/{{task.id}}">{{task.title}}</a></td>
+								<td><a ng-href="/task/{{task.id}}">{{task.key}}</a></td>
+								<td><a ng-href="/task/{{task.id}}">{{task.title}}</a></td>
 								<td>{{task.assignee}}</td>
 								<td>{{task.priority}}</td>
 								<td>{{task.status}}</td>

@@ -3,6 +3,7 @@
   (:require [compojure.handler :as handler]
                 [compojure.route :as route]
                 [ring.middleware.params :refer [wrap-params]]
+                [ring.util.response :as resp]
                 [liberator.core :refer [resource defresource]]
                 [worklist-rest.core.model.task :as task]
                 [worklist-rest.core.model.project :as proj]
@@ -67,6 +68,7 @@
                                 (ANY "/projects" [] projects-resource)
                                 (ANY "/project/:id" [id] (project-resource id))))
   (route/resources "/")
+  (GET "/*" [] (resp/resource-response "index.html" {:root "public"}))
   (route/not-found "Not Found"))
 
 (def app

@@ -80,8 +80,8 @@
 						</thead>
 						<tbody>
 							<tr ng-repeat="project in projects | startFrom:pager.currentPage*pager.pageSize | limitTo:pager.pageSize">
-								<td><a ng-href="#/project/{{project.id}}">{{project.key}}</a></td>
-								<td><a ng-href="#/project/{{project.id}}">{{project.name}}</a></td>
+								<td><a ng-href="/project/{{project.id}}">{{project.key}}</a></td>
+								<td><a ng-href="/project/{{project.id}}">{{project.name}}</a></td>
 								<td>{{project.created | date:'mediumDate'}}</td>
 								<td>{{project.updated | parseDate | fromNow}}</td>
 							</tr>
