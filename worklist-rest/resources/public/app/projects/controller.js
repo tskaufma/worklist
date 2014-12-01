@@ -1,25 +1,25 @@
 var angular = angular || {};
 
-angular.module('tasks.controller', ['tasks.service'])
-    .controller('TaskController', ['$scope', '$filter', 'taskList', 'tasksResource', function($scope, $filer, taskList, tasksResource) {
+angular.module('projects.controller', ['projects.service'])
+    .controller('ProjectController', ['$scope', '$filter', 'projectList', 'projectsResource', function($scope, $filer, projectList, projectsResource) {
         
-        $scope.tasks = taskList;
-        $scope.newTask = {};
-        $scope.taskText = '';
+        $scope.projects = projectList;
+        $scope.newProject = {};
+        $scope.projectText = '';
         
         $scope.pager = {
             pageSize: 10,
             currentPage: 0,
             
             numberOfPages: function() {
-                return $scope.tasks.length === 0 ? 1 :  Math.ceil($scope.tasks.length / this.pageSize);
+                return $scope.projects.length === 0 ? 1 :  Math.ceil($scope.projects.length / this.pageSize);
             },
             
             pageStart: function() {
-                return $scope.tasks.length === 0 ? 0 : this.currentPage*this.pageSize + 1;
+                return $scope.projects.length === 0 ? 0 : this.currentPage*this.pageSize + 1;
             },
             pageEnd: function() {
-                return Math.min((this.currentPage+1)*this.pageSize,$scope.tasks.length);
+                return Math.min((this.currentPage+1)*this.pageSize,$scope.projects.length);
             },
             
             prevPage: function() {
@@ -52,44 +52,47 @@ angular.module('tasks.controller', ['tasks.service'])
             return ret;
         };
         
-        $scope.addTask = function() {
-            if ($scope.taskText !== '') {
-                console.log("Quick Task")
-                tasksResource.newTask({title:$scope.taskText}).then(function(task) {
-                    $scope.tasks.push(task);
+        $scope.addProject = function() {
+            if ($scope.projectText !== '') {
+                console.log("Quick Project")
+                projectsResource.newProject({name:$scope.projectText}).then(function(project) {
+                    $scope.projects.push(project);
+                }).catch(function (error) {
+                    console.log(error);
+                    console.log("new project failed.")
                 });
-                $scope.taskText = '';
+                $scope.projectText = '';
             } else {
-                console.log($scope.newTask);
-                tasksResource.newTask($scope.newTask).then(function(task) {
-                    $scope.tasks.push(task);
+                console.log($scope.newProject);
+                projectsResource.newProject($scope.newProject).then(function(project) {
+                    $scope.projects.push(project);
                 });
-                $scope.newTask = {};
-                $('#newTaskModal').foundation('reveal', 'close');
+                $scope.newProject = {};
+                $('#newProjectModal').foundation('reveal', 'close');
             }
         };
         
-        $scope.newTaskWindow = function() {
-            $('#newTaskModal').foundation('reveal', 'open');
+        $scope.newProjectWindow = function() {
+            $('#newProjectModal').foundation('reveal', 'open');
         };
         
     }])
     
-    .controller('TaskDetailController', ['$scope', 'task', 'taskResource', function($scope, task, taskResource) {
-        $scope.newTask = task;
+    .controller('ProjectDetailController', ['$scope', 'project', 'projectResource', function($scope, project, projectResource) {
+        $scope.newProject = project;
         
-        $scope.editTaskWindow = function() {
-            $('#editTaskModal').foundation('reveal', 'open');
+        $scope.editProjectWindow = function() {
+            $('#editProjectModal').foundation('reveal', 'open');
         };
         
-        $scope.editTask = function() {
+        $scope.editProject = function() {
            
-                console.log($scope.newTask);
-                taskResource.updateTask($scope.newTask.id, $scope.newTask).then(function(task) {
-                    $scope.newTask = task;
+                console.log($scope.newProject);
+                projectResource.updateProject($scope.newProject.id, $scope.newProject).then(function(project) {
+                    $scope.newProject = project;
                 });
                 
-                $('#editTaskModal').foundation('reveal', 'close');
+                $('#editProjectModal').foundation('reveal', 'close');
                 
         };
     }])

@@ -1,0 +1,92 @@
+<div class="row">
+	<div class="large-12 columns">
+		<p></p>
+	</div>
+</div>
+
+<div class="row">
+	<div class="medium-12 columns">
+		<h2>{{newProject.key}} {{newProject.name}}</h2>
+	</div>
+</div>
+
+<div class="row">
+	<div class="medium-12 columns">
+		<a ng-click="editProjectWindow()" class="button secondary postfix">Edit</a>
+	</div>
+</div>
+
+<div id="editProjectModal" class="reveal-modal" data-reveal>
+              <h2>Edit Project</h2>
+              <form ng-submit="editProject()">
+              	  <div ng-include="'app/partials/project-form.html'" >
+              	  </div>
+                  <div class="row">
+                      <div class="large-12 columns">
+                          <div class="right">
+                              <input type="submit" value="Save" class="button"/>
+                          </div>
+                      </div>
+                  </div>
+              </form>
+              <a class="close-reveal-modal">&#215;</a>
+            </div>
+
+
+<div class="row">
+	<div class="large-8 medium-12 columns">
+
+		<div class="row">
+			<div class="large-12 columns">
+				<p></p>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="large-3 small-4 columns">
+				<h4 class="subheader">Description</h4>
+			</div>
+			<div class="large-9 small-8 columns">
+				<hr/>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="large-12 columns">
+				{{newProject.description}}
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="large-12 columns">
+				<p></p>
+			</div>
+		</div>
+	</div>
+	
+	<div class="large-4 columns">
+		<div class="row">
+			<div class="small-12 columns">
+		<div class="panel">
+			<h4>Dates</h4>
+			<div class="row">
+				<div class="medium-6 small-12 columns">
+					<span>Created:</span>
+				</div>
+				<div class="medium-6 small-12 columns">
+					<span>{{newProject.created | date:'medium'}}</span>
+				</div>
+			</div>
+			<div class="row">
+				<div class="medium-6 small-12 columns">
+					<span>Updated:</span>
+				</div>
+				<div class="medium-6 small-12 columns">
+					<span>{{newProject.updated | parseDate | fromNow}}</span>
+				</div>
+			</div>
+		</div>
+			</div>
+		</div>
+	</div>
+</div>

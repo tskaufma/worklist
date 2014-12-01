@@ -1,7 +1,7 @@
 var angular = angular || {};
 
 // Declare app level module which depends on filters, and services
-angular.module('worklist', ['ngRoute', 'worklist.filter', 'tasks.service', 'tasks.controller', 'mm.foundation'])
+angular.module('worklist', ['ngRoute', 'worklist.filter', 'tasks.service', 'tasks.controller', 'projects.service', 'projects.controller', 'mm.foundation'])
 .config(['$routeProvider', '$locationProvider', function($routeProvider, $locationProvider) {
     $routeProvider.when('/tasks', {
         templateUrl: 'app/partials/task-list.html',
@@ -19,6 +19,27 @@ angular.module('worklist', ['ngRoute', 'worklist.filter', 'tasks.service', 'task
         resolve: {
             task: ['$route', 'taskResource', function($route, taskResource) {
                 return taskResource.getTask($route.current.params.taskId);
+            }]
+        }
+    });
+    
+    /* Project Routes */
+    $routeProvider.when('/projects', {
+        templateUrl: 'app/partials/project-list.html',
+        controller: 'ProjectController',
+        resolve: {
+            projectList: ['projectsResource', function(projectsResource) {
+                return projectsResource.listProjects();
+            }]
+        }
+    });
+    
+    $routeProvider.when('/project/:projectId', {
+        templateUrl: 'app/partials/project-page.html',
+        controller: 'ProjectDetailController',
+        resolve: {
+            project: ['$route', 'projectResource', function($route, projectResource) {
+                return projectResource.getProject($route.current.params.projectId);
             }]
         }
     });
@@ -44,3 +65,4 @@ angular.module('worklist', ['ngRoute', 'worklist.filter', 'tasks.service', 'task
 }]);
 
 angular.module("tasks", []);
+angular.module("projects", []);

@@ -30,7 +30,7 @@
                                [:priority :varchar]
                                [:status :varchar]
                                [:resolution :varchar]
-                               [:project-id "varchar(256)"]
+                               ["project_id" "varchar(256)"]
                                [:created :timestamp "DEFAULT CURRENT_TIMESTAMP"]
                                [:updated :timestamp]))
 

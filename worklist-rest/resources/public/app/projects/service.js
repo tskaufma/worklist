@@ -1,40 +1,40 @@
 var angular = angular || {};
 
-angular.module("tasks.service", [])
-    .service("tasksResource", ['$http', function($http) {
+angular.module("projects.service", [])
+    .service("projectsResource", ['$http', function($http) {
         return {
-            newTask: function(task)  {
-               return $http.post("api/tasks", task).then(function(response) {
-                   console.log("newTask success");
+            newProject: function(project)  {
+               return $http.post("api/projects", project).then(function(response) {
+                   console.log("newProject success");
                    return response.data;
                 }); 
             },
-            listTasks: function() {
-               return $http.get("api/tasks").then(function(response) {
-                   console.log("List Tasks Success");
-                   //this.tasks.splice(0, this.tasks.length);
-                   var tasks = [];
+            listProjects: function() {
+               return $http.get("api/projects").then(function(response) {
+                   console.log("List Projects Success");
+                   //this.projects.splice(0, this.projects.length);
+                   var projects = [];
                    response.data.forEach(function(item) {
-                        tasks.push(item);
+                        projects.push(item);
                    });
-                   return tasks;
+                   return projects;
                 });
             }
         };
     }])
-    .service("taskResource", ['$http', function($http) {
+    .service("projectResource", ['$http', function($http) {
         return {
-            getTask: function(id)  {
-               var promise = $http.get("api/task/" + id).then(function(response) {
-                    console.log("get Task success");
-                    var task = response.data;
-                    return task;
+            getProject: function(id)  {
+               var promise = $http.get("api/project/" + id).then(function(response) {
+                    console.log("get Project success");
+                    var project = response.data;
+                    return project;
                 }); 
                 return promise;
             },
-            updateTask: function(id, task) {
-                return $http.put("api/task/" + id, task).then(function(response) {
-                    console.log("update task success");
+            updateProject: function(id, project) {
+                return $http.put("api/project/" + id, project).then(function(response) {
+                    console.log("update project success");
                     return response.data;
                 });
             }
