@@ -1,33 +1,44 @@
 <div class="row">
-                      <div class="large-12 columns">
-                          <label>Title
-                              <input type="text" name="title" ng-model="newTask.title"/>
-                          </label>
-                      </div>
-                      <div class="large-12 columns">
-                          <label>Assignee
-                              <input type="text" name="assignee" ng-model="newTask.assignee"/>
-                          </label>
-                      </div>
-                      
-                      <div class="large-12 columns">
-                          <label>Description
-                              <textarea name="text" ng-model="newTask.text"></textarea>
-                          </label>
-                      </div>
-                      
-                      <div class="large-12 columns">
-                          <label>Priority
-                              <input type="text" name="priority" ng-model="newTask.priority"/>
-                          </label>
-                      </div>
-                      <div class="large-12 columns">
-                          <label>Status
-                              <input type="text" name="status" ng-model="newTask.status"/>
-                          </label>
-                      </div>
-                      <div class="large-12 columns">
-                          <label>Resolution
-                              <input type="text" name="resolution" ng-model="newTask.resolution"/>
-                          </label>
-                      </div>
+    <div class="large-12 columns">
+        <label>Project
+            <select name="project" ng-model="newTask.project_id" />
+          <option ng-repeat="project in projects" value="{{project.id}}">{{project.name}}</option>
+        </select>
+        </label>
+    </div>
+    <div class="large-12 columns">
+        <hr/>
+    </div>
+    <div class="large-12 columns">
+        <label>Title
+            <input type="text" name="title" ng-model="newTask.title" />
+        </label>
+    </div>
+    <div class="large-12 columns">
+        <label>Assignee
+            <input type="text" name="assignee" ng-model="newTask.assignee" />
+        </label>
+    </div>
+
+    <div class="large-12 columns">
+        <label>Description
+            <textarea name="text" ng-model="newTask.text"></textarea>
+        </label>
+    </div>
+
+    <div class="large-12 columns">
+        <label>Priority
+            <input type="text" name="priority" ng-model="newTask.priority" />
+        </label>
+    </div>
+    <div class="large-12 columns">
+        <label>Status
+            <input type="text" name="status" ng-model="newTask.status" />
+        </label>
+    </div>
+    <div class="large-12 columns">
+        <label>Resolution
+            <input type="text" name="resolution" ng-model="newTask.resolution" />
+        </label>
+    </div>
+</div>

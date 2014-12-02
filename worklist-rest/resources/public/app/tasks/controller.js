@@ -1,11 +1,15 @@
 var angular = angular || {};
 
-angular.module('tasks.controller', ['tasks.service'])
-    .controller('TaskController', ['$scope', '$filter', 'taskList', 'tasksResource', function($scope, $filer, taskList, tasksResource) {
+angular.module('tasks.controller', ['tasks.service', 'projects.service'])
+    .controller('TaskController', ['$scope', '$filter', 'taskList', 'tasksResource', 'projectsResource', function($scope, $filer, taskList, tasksResource, projectsResource) {
         
         $scope.tasks = taskList;
         $scope.newTask = {};
         $scope.taskText = '';
+        $scope.projects = [];
+        projectsResource.listProjects().then(function (projects) {
+            $scope.projects = projects;
+        });
         
         $scope.pager = {
             pageSize: 10,
@@ -75,8 +79,12 @@ angular.module('tasks.controller', ['tasks.service'])
         
     }])
     
-    .controller('TaskDetailController', ['$scope', 'task', 'taskResource', function($scope, task, taskResource) {
+    .controller('TaskDetailController', ['$scope', 'task', 'taskResource', 'projectsResource', function($scope, task, taskResource, projectsResource) {
         $scope.newTask = task;
+        $scope.projects = [];
+        projectsResource.listProjects().then(function (projects) {
+            $scope.projects = projects;
+        });
         
         $scope.editTaskWindow = function() {
             $('#editTaskModal').foundation('reveal', 'open');

@@ -15,7 +15,7 @@
              :handle-ok (fn [_] (task/get-all-tasks))
              :malformed? #(parse-json % ::data)
              :post! (fn [ctx]
-                        (let [body (get ctx ::data)
+                        (let [body (proj/unwrapTask (get ctx ::data))
                               task (task/create-new-task body)]
                             (clojure.pprint/pprint task)
                             {::id (get-in task [:id])}))
@@ -28,11 +28,11 @@
              :allowed-methods [:get :put]
              :can-put-to-missing? false
              :available-media-types ["application/json"]
-             :handle-ok (fn [_] (task/get-task id))
+             :handle-ok (fn [_] (proj/enrichTask (task/get-task id)))
              :malformed? #(parse-json % ::data)
              :new? false
              :respond-with-entity? true
-             :put! #(task/update-task id (::data %)))
+             :put! #(task/update-task id (proj/unwrapTask (::data %))))
          
 (defresource projects-resource
              :allowed-methods [:post :get]

@@ -35,3 +35,19 @@
   (sql/with-connection (db-connection)
     (sql/delete-rows :projects ["id=?" id]))
   {:success true})
+
+(defn enrichTask [task]
+  (if (:project_id task)
+    (let [project (get-project (:project_id task))
+          result (assoc task :project project)]
+        (clojure.pprint/pprint result)
+        result)
+    task))
+
+(defn unwrapTask [task]
+  (if (get task "project")
+      (let [project_id (get-in task ["project" "id"])
+            result (assoc (dissoc task "project") "project_id" project_id)]
+           (clojure.pprint/pprint result)
+           result)
+      task))

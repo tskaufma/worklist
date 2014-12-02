@@ -31,14 +31,14 @@
   (let [id (util/uuid)]
     (sql/with-connection (db-connection)
       (let [maxKey (task-max-key)
-            task (assoc doc "id" id "key" (inc maxKey) "updated" (util/now-ts))]
+            task (dissoc (assoc doc "id" id "key" (inc maxKey) "updated" (util/now-ts) "project_id" (get-in doc ["project" "id"])) "project")]
         (sql/insert-record :tasks task)))
     (get-task id)))
 
 ;
 (defn update-task [id doc]
   (sql/with-connection (db-connection)
-    (let [task (dissoc doc "id" "created" "updated" "key")]
+    (let [task (dissoc doc "id" "created" "updated" "key" "project")]
       (sql/update-values :tasks ["id=?" id] (assoc task "updated" (util/now-ts) ))))
   (get-task id))
 
