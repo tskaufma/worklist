@@ -1,7 +1,7 @@
 var angular = angular || {};
 
-angular.module('projects.controller', ['projects.service'])
-    .controller('ProjectController', ['$scope', '$filter', 'projectList', 'projectsResource', function($scope, $filer, projectList, projectsResource) {
+angular.module('projects.controller', ['projects.service', 'worklist.services'])
+    .controller('ProjectController', ['$scope', '$filter', 'projectList', 'projectsResource', 'alertList', function($scope, $filer, projectList, projectsResource, alertList) {
         
         $scope.projects = projectList;
         $scope.newProject = {};
@@ -57,9 +57,11 @@ angular.module('projects.controller', ['projects.service'])
                 console.log("Quick Project")
                 projectsResource.newProject({name:$scope.projectText}).then(function(project) {
                     $scope.projects.push(project);
+                    alertList.push({type: "info", message: "Project " + project.name + " created successfully."})
                 }).catch(function (error) {
                     console.log(error);
                     console.log("new project failed.")
+                    alertList.push({type: "error", message: "Failed to created project. " + error.error});
                 });
                 $scope.projectText = '';
             } else {

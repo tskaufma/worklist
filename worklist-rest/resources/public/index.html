@@ -49,6 +49,15 @@
 	<dl class="sub-nav" ng-controller="NavigationController">
 		<dd ng-repeat="link in links" ng-class="{active : link.active}"><a ng-bind="link.name" ng-href="{{link.url}}"></a></dd>
 	</dl>
+	
+	<div class="row" ng-controller="AlertController">
+		<div class="small-8 centered">
+	  <alert ng-repeat="alert in alerts" type="alert.type" close="closeAlert($index)">{{alert.message}}</alert>
+	  <button class='button' ng-click="addAlert()">Add Alert</button>
+		</div>
+	</div>
+
+
 
 	<div class="row">
 		<div class="large-12 columns">
