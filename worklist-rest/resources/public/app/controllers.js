@@ -1,7 +1,7 @@
 var angular = angular || {};
 
-angular.module("worklist.nav", ['worklist.services', 'mm.foundation'])
-    .controller("NavigationController", ["$scope", "$location", function($scope, $location) {
+angular.module("worklist.controllers", ['worklist.services'])
+    .controller("NavigationCtrl", ["$scope", "$location", function($scope, $location) {
         $scope.links = [{
             name: "Projects",
             url: "/projects",
@@ -27,7 +27,7 @@ angular.module("worklist.nav", ['worklist.services', 'mm.foundation'])
     }])
     
     // Alert Controller for Flash messages on screen.
-    .controller("AlertController", ["$scope", "alertList", function($scope, alertList) {
+    .controller("PageAlertCtrl", ["$scope", "alertList", function($scope, alertList) {
         $scope.alerts = alertList;
         
         $scope.closeAlert = function(index) {
