@@ -24,17 +24,18 @@
 (sql/with-connection (db-connection)
   (sql/create-table :tasks [:id "varchar(256)" "primary key"]
                                [:key :int]
+                               [:project_key "varchar(4)"]
                                [:title "varchar(1024)"]
                                [:text :varchar]
-                               [:assignee :varchar]
-                               [:priority :varchar]
-                               [:status :varchar]
-                               [:resolution :varchar]
+                               [:assignee "varchar(256)"]
+                               [:priority "varchar(256)"]
+                               [:status "varchar(256)"]
+                               [:resolution "varchar(256)"]
                                ["project_id" "varchar(256)"]
                                [:created :timestamp "DEFAULT CURRENT_TIMESTAMP"]
                                [:updated :timestamp]))
 
-
+;
 (sql/with-connection (db-connection)
   (sql/create-table :projects [:id "varchar(256)" "primary key"]
                                [:name "varchar(1024)"]
@@ -43,6 +44,15 @@
                                [:created :timestamp "DEFAULT CURRENT_TIMESTAMP"]
                                [:updated :timestamp]))
 
+;                          
+(sql/with-connection (db-connection)
+  (sql/create-table :people [:id "varchar(256)" "primary key"]
+                               [:name "varchar(1024)"]
+                               [:description :varchar]
+                               [:created :timestamp "DEFAULT CURRENT_TIMESTAMP"]
+                               [:updated :timestamp]))
+
+;
 
 (extend-type java.sql.Timestamp
   json/JSONWriter

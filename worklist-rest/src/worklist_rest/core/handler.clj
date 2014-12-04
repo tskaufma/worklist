@@ -7,6 +7,7 @@
                 [liberator.core :refer [resource defresource]]
                 [worklist-rest.core.model.task :as task]
                 [worklist-rest.core.model.project :as proj]
+                [worklist-rest.core.model.person :as peo]
                 [worklist-rest.core.model.util :refer [parse-json]]))
 
 (defresource tasks-resource
@@ -59,6 +60,30 @@
              :respond-with-entity? true
              :put! #(proj/update-project id (::data %)))
              
+(defresource people-resource
+             :allowed-methods [:post :get]
+             :available-media-types ["application/json"]
+             :handle-ok (fn [_] (peo/get-all-people))
+             :malformed? #(parse-json % ::data)
+             :post! (fn [ctx]
+                        (let [body (get ctx ::data)
+                              person (peo/create-new-person body)]
+                            (clojure.pprint/pprint person)
+                            {::id (get-in person [:id])}))
+             :post-redirect? true
+             :location (fn [ctx] (format "/api/person/%s" (::id ctx)))
+             :handle-malformed (fn [ctx] 
+                                   {:error (get ctx :message)}))
+
+(defresource person-resource [id]
+             :allowed-methods [:get :put]
+             :can-put-to-missing? false
+             :available-media-types ["application/json"]
+             :handle-ok (fn [_] (peo/get-person id))
+             :malformed? #(parse-json % ::data)
+             :new? false
+             :respond-with-entity? true
+             :put! #(peo/update-person id (::data %)))
 
 (defroutes app-routes
   (GET "/test" [] "TK is writing clojure code! ")
@@ -66,7 +91,9 @@
                                 (ANY "/tasks" [] tasks-resource)
                                 (ANY "/task/:id" [id] (task-resource id))
                                 (ANY "/projects" [] projects-resource)
-                                (ANY "/project/:id" [id] (project-resource id))))
+                                (ANY "/project/:id" [id] (project-resource id))
+                                (ANY "/people" [] people-resource)
+                                (ANY "/person/:id" [id] (person-resource id))))
   (route/resources "/")
   (GET "/*" [] (resp/resource-response "index.html" {:root "public"}))
   (route/not-found "Not Found"))
