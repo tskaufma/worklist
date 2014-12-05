@@ -9,7 +9,8 @@
                  [org.clojure/java.jdbc "0.2.3"]
                  [com.h2database/h2 "1.3.168"]
                  [cheshire "4.0.3"]
-                 [liberator "0.10.0"]]
+                 [liberator "0.10.0"]
+                 [com.cemerick/friend "0.2.1"]]
   :plugins [[lein-ring "0.8.13"]]
   :ring {:handler worklist-rest.core.handler/app}
   :profiles

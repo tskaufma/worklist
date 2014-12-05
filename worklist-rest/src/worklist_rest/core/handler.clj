@@ -8,7 +8,10 @@
                 [worklist-rest.core.model.task :as task]
                 [worklist-rest.core.model.project :as proj]
                 [worklist-rest.core.model.person :as peo]
-                [worklist-rest.core.model.util :refer [parse-json]]))
+                [worklist-rest.core.model.util :refer [parse-json]]
+                [cemerick.friend :as friend]
+                (cemerick.friend [workflows :as workflows]
+                                 [credentials :as creds])))
 
 (defresource tasks-resource
              :allowed-methods [:post :get]
@@ -87,6 +90,9 @@
 
 (defroutes app-routes
   (GET "/test" [] "TK is writing clojure code! ")
+  (GET "/" [] (resp/resource-response "index.html" {:root "public"}))
+  (GET "/login" [] (resp/resource-response "login.html" {:root "public"}))
+  (GET "/authtest" [] (friend/authorize #{::user} "If you see this, you are logged in"))
   (context "/api" [] (defroutes api-tasks
                                 (ANY "/tasks" [] tasks-resource)
                                 (ANY "/task/:id" [id] (task-resource id))
@@ -95,9 +101,20 @@
                                 (ANY "/people" [] people-resource)
                                 (ANY "/person/:id" [id] (person-resource id))))
   (route/resources "/")
-  (GET "/*" [] (resp/resource-response "index.html" {:root "public"}))
+  (context "/app" [] (defroutes app-routes
+                                (GET "/*" [] (friend/authorize #{::user} (resp/resource-response "app/index.html" {:root "public"})))))
   (route/not-found "Not Found"))
 
+(def users {
+            "trevor.kaufman" {:username "trevor.kaufman" :password (creds/hash-bcrypt "woof") :roles #{::user}}
+            })
+
+(def friend-config {
+                    :credential-fn (partial creds/bcrypt-credential-fn users)
+                    :workflows [(workflows/interactive-form)]
+                    })
+
 (def app
-  (-> (handler/api app-routes)
-      wrap-params))
+  (->  (friend/authenticate app-routes friend-config) 
+    handler/site 
+    wrap-params))
