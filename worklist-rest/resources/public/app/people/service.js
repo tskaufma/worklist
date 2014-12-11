@@ -1,40 +1,40 @@
 var angular = angular || {};
 
-angular.module("projects.service", []) 
-    .service("projectsResource", ['$http', function($http) {
+angular.module("people.service", []) 
+    .service("peopleResource", ['$http', function($http) {
         return {
-            newProject: function(project)  {
-               return $http.post("api/projects", project).then(function(response) {
-                   console.log("newProject success");
+            newperson: function(person)  {
+               return $http.post("/api/people", person).then(function(response) {
+                   console.log("newperson success");
                    return response.data;
                 }); 
             },
-            listProjects: function() {
-               return $http.get("api/projects").then(function(response) {
-                   console.log("List Projects Success");
-                   //this.projects.splice(0, this.projects.length);
-                   var projects = [];
+            listpeople: function() {
+               return $http.get("/api/people").then(function(response) {
+                   console.log("List people Success");
+                   //this.people.splice(0, this.people.length);
+                   var people = [];
                    response.data.forEach(function(item) {
-                        projects.push(item);
+                        people.push(item);
                    });
-                   return projects;
+                   return people;
                 });
             }
         };
     }])
-    .service("projectResource", ['$http', function($http) {
+    .service("personResource", ['$http', function($http) {
         return {
-            getProject: function(id)  {
-               var promise = $http.get("api/project/" + id).then(function(response) {
-                    console.log("get Project success");
-                    var project = response.data;
-                    return project;
+            getperson: function(id)  {
+               var promise = $http.get("/api/person/" + id).then(function(response) {
+                    console.log("get person success");
+                    var person = response.data;
+                    return person;
                 }); 
                 return promise;
             },
-            updateProject: function(id, project) {
-                return $http.put("api/project/" + id, project).then(function(response) {
-                    console.log("update project success");
+            updateperson: function(id, person) {
+                return $http.put("/api/person/" + id, person).then(function(response) {
+                    console.log("update person success");
                     return response.data;
                 });
             }

@@ -4,7 +4,7 @@ var angular = angular || {};
 angular.module('worklist', ['ngRoute', 'worklist.filter', 'worklist.controllers', 'tasks.service', 'tasks.controller', 'projects.service', 'projects.controller', 'mm.foundation'])
 .config(['$routeProvider', '$locationProvider', function($routeProvider, $locationProvider) {
     $routeProvider.when('/tasks', {
-        templateUrl: 'app/partials/task-list.html',
+        templateUrl: '/app/partials/task-list.html',
         controller: 'TaskController',
         resolve: {
             taskList: ['tasksResource', function(tasksResource) {
@@ -14,7 +14,7 @@ angular.module('worklist', ['ngRoute', 'worklist.filter', 'worklist.controllers'
     });
     
     $routeProvider.when('/task/:taskId', {
-        templateUrl: 'app/partials/task-page.html',
+        templateUrl: '/app/partials/task-page.html',
         controller: 'TaskDetailController',
         resolve: {
             task: ['$route', 'taskResource', function($route, taskResource) {
@@ -25,7 +25,7 @@ angular.module('worklist', ['ngRoute', 'worklist.filter', 'worklist.controllers'
     
     /* Project Routes */
     $routeProvider.when('/projects', {
-        templateUrl: 'app/partials/project-list.html',
+        templateUrl: '/app/partials/project-list.html',
         controller: 'ProjectController',
         resolve: {
             projectList: ['projectsResource', function(projectsResource) {
@@ -35,7 +35,7 @@ angular.module('worklist', ['ngRoute', 'worklist.filter', 'worklist.controllers'
     });
     
     $routeProvider.when('/project/:projectId', {
-        templateUrl: 'app/partials/project-page.html',
+        templateUrl: '/app/partials/project-page.html',
         controller: 'ProjectDetailController',
         resolve: {
             project: ['$route', 'projectResource', function($route, projectResource) {
@@ -61,7 +61,7 @@ angular.module('worklist', ['ngRoute', 'worklist.filter', 'worklist.controllers'
     $routeProvider.otherwise({
         redirectTo: '/tasks'
     });
-    $locationProvider.html5Mode(true);
+   // $locationProvider.html5Mode(true);
 }]);
 
 angular.module("tasks", []);

@@ -4,16 +4,17 @@ angular.module("tasks.service", [])
     .service("tasksResource", ['$http', function($http) {
         return {
             newTask: function(task)  {
-               return $http.post("api/tasks", task).then(function(response) {
+               return $http.post("/api/tasks", task).then(function(response) {
                    console.log("newTask success");
                    return response.data;
                 }); 
             },
             listTasks: function() {
-               return $http.get("api/tasks").then(function(response) {
+               return $http.get("/api/tasks").then(function(response) {
                    console.log("List Tasks Success");
                    //this.tasks.splice(0, this.tasks.length);
                    var tasks = [];
+                   console.log(response.data);
                    response.data.forEach(function(item) {
                         tasks.push(item);
                    });
@@ -25,7 +26,7 @@ angular.module("tasks.service", [])
     .service("taskResource", ['$http', function($http) {
         return {
             getTask: function(id)  {
-               var promise = $http.get("api/task/" + id).then(function(response) {
+               var promise = $http.get("/api/task/" + id).then(function(response) {
                     console.log("get Task success");
                     var task = response.data;
                     return task;
@@ -33,7 +34,7 @@ angular.module("tasks.service", [])
                 return promise;
             },
             updateTask: function(id, task) {
-                return $http.put("api/task/" + id, task).then(function(response) {
+                return $http.put("/api/task/" + id, task).then(function(response) {
                     console.log("update task success");
                     return response.data;
                 });

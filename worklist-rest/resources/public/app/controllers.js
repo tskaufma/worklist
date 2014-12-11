@@ -1,15 +1,15 @@
 var angular = angular || {};
 
-angular.module("worklist.controllers", ['worklist.services'])
+angular.module("worklist.controllers", [])
     .controller("NavigationCtrl", ["$scope", "$location", function($scope, $location) {
         $scope.links = [{
             name: "Projects",
-            url: "/projects",
+            url: "#/projects",
             active: false
         },
         {
             name: "Tasks",
-            url: "/tasks",
+            url: "#/tasks",
             active: true
         }];
         
@@ -40,12 +40,9 @@ angular.module("worklist.controllers", ['worklist.services'])
         };
 
     }])
-;
-
-angular.module("worklist.services", [])
-    .service("alertList", function() {
-        var list = [{type: "info", message: "initial alert"}];
+    
+    .controller("HeaderUserCtrl", ["$scope", "tkUserService", function($scope, tkUserService) {
+        $scope.user = tkUserService;
         
-        return list;
-    })
+    }])
 ;

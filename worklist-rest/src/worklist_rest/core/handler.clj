@@ -4,16 +4,18 @@
                 [compojure.route :as route]
                 [ring.middleware.params :refer [wrap-params]]
                 [ring.util.response :as resp]
-                [liberator.core :refer [resource defresource]]
+                [worklist-rest.helpers.resources :refer [resource defresource authenticated-base]]
                 [worklist-rest.core.model.task :as task]
                 [worklist-rest.core.model.project :as proj]
                 [worklist-rest.core.model.person :as peo]
+                [worklist-rest.core.model.user :as user]
                 [worklist-rest.core.model.util :refer [parse-json]]
                 [cemerick.friend :as friend]
                 (cemerick.friend [workflows :as workflows]
                                  [credentials :as creds])))
 
 (defresource tasks-resource
+             ;:base authenticated-base
              :allowed-methods [:post :get]
              :available-media-types ["application/json"]
              :handle-ok (fn [_] (task/get-all-tasks))
@@ -26,7 +28,8 @@
              :post-redirect? true
              :location (fn [ctx] (format "/api/task/%s" (::id ctx)))
              :handle-malformed (fn [ctx] 
-                                   {:error (get ctx :message)}))
+                                   {:error (:message ctx)}))
+;; (function argument...)
 
 (defresource task-resource [id]
              :allowed-methods [:get :put]
@@ -87,6 +90,20 @@
              :new? false
              :respond-with-entity? true
              :put! #(peo/update-person id (::data %)))
+         
+(defresource user-resource [id]
+             :base authenticated-base
+             :allowed-methods [:get]
+             :can-put-to-missing? false
+             :available-media-types ["application/json"]
+             :handle-ok (fn [ctx] (if (= id "me")
+                                      (friend/current-authentication (:request ctx))
+                                      (user/get-user id)))
+             :malformed? #(parse-json % ::data)
+             :new? false
+             :respond-with-entity? true
+             ;;:put! #(peo/update-person id (::data %))
+             )
 
 (defroutes app-routes
   (GET "/test" [] "TK is writing clojure code! ")
@@ -99,22 +116,22 @@
                                 (ANY "/projects" [] projects-resource)
                                 (ANY "/project/:id" [id] (project-resource id))
                                 (ANY "/people" [] people-resource)
-                                (ANY "/person/:id" [id] (person-resource id))))
+                                (ANY "/person/:id" [id] (person-resource id))
+                                (GET "/user/:id" [id] (user-resource id))))
   (route/resources "/")
   (context "/app" [] (defroutes app-routes
-                                (GET "/*" [] (friend/authorize #{::user} (resp/resource-response "app/index.html" {:root "public"})))))
+                                (GET "/index.html" [] (friend/authorize #{::user} (resp/resource-response "app/index.html" {:root "public"})))))
   (route/not-found "Not Found"))
 
-(def users {
-            "trevor.kaufman" {:username "trevor.kaufman" :password (creds/hash-bcrypt "woof") :roles #{::user}}
-            })
+;;(def users {            "trevor.kaufman" {:username "trevor.kaufman" :password (creds/hash-bcrypt "woof") :roles #{::user}}            })
 
 (def friend-config {
-                    :credential-fn (partial creds/bcrypt-credential-fn users)
-                    :workflows [(workflows/interactive-form)]
+                    :credential-fn (partial creds/bcrypt-credential-fn user/user-by-username)
+                    :workflows [(workflows/http-basic :realm "/") (workflows/interactive-form)]
                     })
 
 (def app
-  (->  (friend/authenticate app-routes friend-config) 
+  (-> app-routes
+    (friend/authenticate friend-config) 
     handler/site 
     wrap-params))

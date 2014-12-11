@@ -53,6 +53,14 @@
                                [:updated :timestamp]))
 
 ;
+(sql/with-connection (db-connection)
+  (sql/create-table :users [:id "varchar(256)" "primary key"]
+                               [:username "varchar(1024)"]
+                               [:password :varchar]
+                               [:created :timestamp "DEFAULT CURRENT_TIMESTAMP"]
+                               [:updated :timestamp]))
+
+;
 
 (extend-type java.sql.Timestamp
   json/JSONWriter

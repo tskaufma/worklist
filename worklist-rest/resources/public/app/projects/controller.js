@@ -1,6 +1,6 @@
 var angular = angular || {};
 
-angular.module('projects.controller', ['projects.service', 'worklist.services'])
+angular.module('projects.controller', ['projects.service'])
     .controller('ProjectController', ['$scope', '$filter', 'projectList', 'projectsResource', 'alertList', function($scope, $filer, projectList, projectsResource, alertList) {
         
         $scope.projects = projectList;
