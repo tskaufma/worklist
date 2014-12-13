@@ -1,7 +1,7 @@
 var angular = angular || {};
 
 // Declare app level module which depends on filters, and services
-angular.module('worklist', ['ngRoute', 'worklist.filter', 'worklist.controllers', 'tasks.service', 'tasks.controller', 'projects.service', 'projects.controller', 'mm.foundation'])
+angular.module('worklist', ['ngRoute', 'ngAnimate', 'worklist.filter', 'worklist.controllers', 'tasks.service', 'tasks.controller', 'projects.service', 'projects.controller', 'mm.foundation'])
 .config(['$routeProvider', '$locationProvider', function($routeProvider, $locationProvider) {
     $routeProvider.when('/tasks', {
         templateUrl: '/app/partials/task-list.html',
@@ -62,7 +62,8 @@ angular.module('worklist', ['ngRoute', 'worklist.filter', 'worklist.controllers'
         redirectTo: '/tasks'
     });
    // $locationProvider.html5Mode(true);
-}]);
+}])
+;
 
 angular.module("tasks", []);
 angular.module("projects", []);

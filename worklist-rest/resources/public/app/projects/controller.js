@@ -57,17 +57,22 @@ angular.module('projects.controller', ['projects.service'])
                 console.log("Quick Project")
                 projectsResource.newProject({name:$scope.projectText}).then(function(project) {
                     $scope.projects.push(project);
-                    alertList.push({type: "info", message: "Project " + project.name + " created successfully."})
+                    alertList.success("Project " + project.name + " created successfully.");
                 }).catch(function (error) {
                     console.log(error);
-                    console.log("new project failed.")
-                    alertList.push({type: "error", message: "Failed to created project. " + error.error});
+                    console.log("new project failed.");
+                    alertList.error("Failed to created project. " + error.error);
                 });
                 $scope.projectText = '';
             } else {
                 console.log($scope.newProject);
                 projectsResource.newProject($scope.newProject).then(function(project) {
                     $scope.projects.push(project);
+                    alertList.success("Project " + project.name + " created successfully.");
+                }).catch(function (error) {
+                    console.log(error);
+                    console.log("new project failed.");
+                    alertList.error("Failed to created project. " + error.error);
                 });
                 $scope.newProject = {};
                 $('#newProjectModal').foundation('reveal', 'close');
@@ -80,7 +85,7 @@ angular.module('projects.controller', ['projects.service'])
         
     }])
     
-    .controller('ProjectDetailController', ['$scope', 'project', 'projectResource', function($scope, project, projectResource) {
+    .controller('ProjectDetailController', ['$scope', 'project', 'projectResource', 'alertList', function($scope, project, projectResource, alertList) {
         $scope.newProject = project;
         
         $scope.editProjectWindow = function() {
@@ -92,6 +97,7 @@ angular.module('projects.controller', ['projects.service'])
                 console.log($scope.newProject);
                 projectResource.updateProject($scope.newProject.id, $scope.newProject).then(function(project) {
                     $scope.newProject = project;
+                    alertList.success("Project " + project.name + " saved successfully.");
                 });
                 
                 $('#editProjectModal').foundation('reveal', 'close');

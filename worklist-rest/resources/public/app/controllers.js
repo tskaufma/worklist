@@ -28,16 +28,13 @@ angular.module("worklist.controllers", [])
     
     // Alert Controller for Flash messages on screen.
     .controller("PageAlertCtrl", ["$scope", "alertList", function($scope, alertList) {
-        $scope.alerts = alertList;
+        $scope.alerts = alertList.list;
         
         $scope.closeAlert = function(index) {
-            alertList.splice(index, 1);
+            alertList.list.splice(index, 1);
         };
         
-        // test only
-        $scope.addAlert = function() {
-            alertList.push({type: "alert", message: "Another alert!"});
-        };
+        alertList.info("Hello, World!");
 
     }])
     

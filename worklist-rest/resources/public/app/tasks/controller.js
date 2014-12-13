@@ -1,7 +1,8 @@
 var angular = angular || {};
 
 angular.module('tasks.controller', ['tasks.service', 'projects.service'])
-    .controller('TaskController', ['$scope', '$filter', 'taskList', 'tasksResource', 'projectsResource', function($scope, $filer, taskList, tasksResource, projectsResource) {
+    .controller('TaskController', ['$scope', '$filter', 'taskList', 'tasksResource', 'projectsResource', 'alertList', 
+    function($scope, $filer, taskList, tasksResource, projectsResource, alertList) {
         
         $scope.tasks = taskList;
         $scope.newTask = {};
@@ -58,15 +59,17 @@ angular.module('tasks.controller', ['tasks.service', 'projects.service'])
         
         $scope.addTask = function() {
             if ($scope.taskText !== '') {
-                console.log("Quick Task")
+                console.log("Quick Task");
                 tasksResource.newTask({title:$scope.taskText}).then(function(task) {
                     $scope.tasks.push(task);
+                    alertList.success("Task " + task.name + " added successfully.");
                 });
                 $scope.taskText = '';
             } else {
                 console.log($scope.newTask);
                 tasksResource.newTask($scope.newTask).then(function(task) {
                     $scope.tasks.push(task);
+                    alertList.success("Task " + task.name + " added successfully.");
                 });
                 $scope.newTask = {};
                 $('#newTaskModal').foundation('reveal', 'close');
@@ -79,7 +82,8 @@ angular.module('tasks.controller', ['tasks.service', 'projects.service'])
         
     }])
     
-    .controller('TaskDetailController', ['$scope', 'task', 'taskResource', 'projectsResource', function($scope, task, taskResource, projectsResource) {
+    .controller('TaskDetailController', ['$scope', 'task', 'taskResource', 'projectsResource', 'alertList', 
+    function($scope, task, taskResource, projectsResource, alertList) {
         $scope.newTask = task;
         $scope.projects = [];
         projectsResource.listProjects().then(function (projects) {
@@ -95,6 +99,7 @@ angular.module('tasks.controller', ['tasks.service', 'projects.service'])
                 console.log($scope.newTask);
                 taskResource.updateTask($scope.newTask.id, $scope.newTask).then(function(task) {
                     $scope.newTask = task;
+                    alertList.success("Task " + task.name + " saved successfully.");
                 });
                 
                 $('#editTaskModal').foundation('reveal', 'close');

@@ -54,20 +54,25 @@ angular.module('projects.controller', ['projects.service'])
         
         $scope.addProject = function() {
             if ($scope.projectText !== '') {
-                console.log("Quick Project")
+                console.log("Quick Project");
                 projectsResource.newProject({name:$scope.projectText}).then(function(project) {
                     $scope.projects.push(project);
-                    alertList.push({type: "info", message: "Project " + project.name + " created successfully."})
+                    alertList.success("Project " + project.name + " created successfully.");
                 }).catch(function (error) {
                     console.log(error);
-                    console.log("new project failed.")
-                    alertList.push({type: "error", message: "Failed to created project. " + error.error});
+                    console.log("new project failed.");
+                    alertList.error("Failed to created project. " + error.error);
                 });
                 $scope.projectText = '';
             } else {
                 console.log($scope.newProject);
                 projectsResource.newProject($scope.newProject).then(function(project) {
                     $scope.projects.push(project);
+                    alertList.success("Project " + project.name + " created successfully.");
+                }).catch(function (error) {
+                    console.log(error);
+                    console.log("new project failed.");
+                    alertList.error("Failed to created project. " + error.error);
                 });
                 $scope.newProject = {};
                 $('#newProjectModal').foundation('reveal', 'close');
