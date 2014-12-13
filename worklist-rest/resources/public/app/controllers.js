@@ -4,12 +4,12 @@ angular.module("worklist.controllers", [])
     .controller("NavigationCtrl", ["$scope", "$location", function($scope, $location) {
         $scope.links = [{
             name: "Projects",
-            url: "#/projects",
+            url: "/projects",
             active: false
         },
         {
             name: "Tasks",
-            url: "#/tasks",
+            url: "/tasks",
             active: true
         }];
         

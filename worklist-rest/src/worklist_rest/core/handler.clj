@@ -121,13 +121,14 @@
   (route/resources "/")
   (context "/app" [] (defroutes app-routes
                                 (GET "/index.html" [] (friend/authorize #{::user} (resp/resource-response "app/index.html" {:root "public"})))))
+  (friend/logout (ANY "/logout" request (ring.util.response/redirect "/")))
   (route/not-found "Not Found"))
 
 ;;(def users {            "trevor.kaufman" {:username "trevor.kaufman" :password (creds/hash-bcrypt "woof") :roles #{::user}}            })
 
 (def friend-config {
                     :credential-fn (partial creds/bcrypt-credential-fn user/user-by-username)
-                    :workflows [(workflows/http-basic :realm "/") (workflows/interactive-form)]
+                    :workflows [(workflows/http-basic :realm "/") (workflows/interactive-form :redirect-on-auth? "app/index.html")]
                     })
 
 (def app

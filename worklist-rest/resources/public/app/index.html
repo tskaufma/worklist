@@ -41,7 +41,7 @@
 				<li class="has-dropdown" ng-show="user.loggedIn">
 					<a href="#">Hi, {{user.currentUser.username}}</a>
 					<ul class="dropdown">
-						<li><a href="#">Sign Out</a>
+						<li><a href="/logout">Sign Out</a>
 						</li>
 					</ul>
 				</li>
@@ -50,7 +50,7 @@
 	</nav>
 	
 	<dl class="sub-nav" ng-controller="NavigationCtrl">
-		<dd ng-repeat="link in links" ng-class="{active : link.active}"><a ng-bind="link.name" ng-href="{{link.url}}"></a></dd>
+		<dd ng-repeat="link in links" ng-class="{active : link.active}"><a ng-bind="link.name" ng-href="#{{link.url}}"></a></dd>
 	</dl>
 	
 	<div class="alert-container">

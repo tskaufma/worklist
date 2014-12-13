@@ -34,7 +34,7 @@ angular.module("worklist")
         };
     }])
     
-    .service("tkUserService", ["$http", function($http) {
+    .service("tkUserService", ["$http", "$window", function($http, $window) {
         var service = {
             currentUser: null,
             loggedIn: false
@@ -42,6 +42,8 @@ angular.module("worklist")
         $http.get("/api/user/me").then(function(response) {
             service.currentUser = response.data;
             service.loggedIn = true;
+        }).catch(function(error) {
+            $window.location.href = '/login'
         });
         
         return service;
