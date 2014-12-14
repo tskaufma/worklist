@@ -38,7 +38,7 @@ angular.module("worklist.controllers", [])
 
     }])
     
-    .controller("HeaderUserCtrl", ["$scope", "tkUserService", function($scope, tkUserService) {
+    .controller("ApplicationCtrl", ["$scope", "tkUserService", function($scope, tkUserService) {
         $scope.user = tkUserService;
         
     }])
