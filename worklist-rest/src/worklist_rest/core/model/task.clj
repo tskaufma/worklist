@@ -31,7 +31,8 @@
   (let [id (util/uuid)]
     (sql/with-connection (db-connection)
       (let [maxKey (task-max-key)
-            task (dissoc (assoc doc "id" id "key" (inc maxKey) "updated" (util/now-ts) "project_id" (get-in doc ["project" "id"])) "project")]
+            task (dissoc (assoc doc "id" id "key" (inc maxKey) "updated" (util/now-ts)) "project")]
+        (clojure.pprint/pprint task)
         (sql/insert-record :tasks task)))
     (get-task id)))
 
