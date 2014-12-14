@@ -62,14 +62,14 @@ angular.module('tasks.controller', ['tasks.service', 'projects.service'])
                 console.log("Quick Task");
                 tasksResource.newTask({title:$scope.taskText}).then(function(task) {
                     $scope.tasks.push(task);
-                    alertList.success("Task " + task.name + " added successfully.");
+                    alertList.success("Task " + task.title + " added successfully.");
                 });
                 $scope.taskText = '';
             } else {
                 console.log($scope.newTask);
                 tasksResource.newTask($scope.newTask).then(function(task) {
                     $scope.tasks.push(task);
-                    alertList.success("Task " + task.name + " added successfully.");
+                    alertList.success("Task " + task.title + " added successfully.");
                 });
                 $scope.newTask = {};
                 $('#newTaskModal').foundation('reveal', 'close');
@@ -99,7 +99,7 @@ angular.module('tasks.controller', ['tasks.service', 'projects.service'])
                 console.log($scope.newTask);
                 taskResource.updateTask($scope.newTask.id, $scope.newTask).then(function(task) {
                     $scope.newTask = task;
-                    alertList.success("Task " + task.name + " saved successfully.");
+                    alertList.success("Task " + task.title + " saved successfully.");
                 });
                 
                 $('#editTaskModal').foundation('reveal', 'close');
