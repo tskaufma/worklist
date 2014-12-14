@@ -2,19 +2,6 @@
     (:require [clojure.java.jdbc :as sql]
               [worklist-rest.core.util :as util]
               [worklist-rest.core.db :refer [db-connection]]))
-
-
-(defn make-typelist 
-  "makes a map to work with the named typelist"
-  [table-name]
-  (let [table (if (keyword? table-name) (name table-name) (str table-name))]
-    {
-      :get-all (partial get-all table)
-      :get (partial get-item table)
-      :create-new (partial create-new table)
-      :update (partial update table)
-      :delete (partial delete table)  
-    }))
   
 (defn get-all [table ]
   (sql/with-connection (db-connection)
@@ -48,3 +35,15 @@
   (sql/with-connection (db-connection)
     (sql/delete-rows (str "tl_" table) ["id=?" id]))
   {:success true})
+
+(defn make-typelist 
+  "makes a map to work with the named typelist"
+  [table-name]
+  (let [table (if (keyword? table-name) (name table-name) (str table-name))]
+    {
+      :get-all (partial get-all table)
+      :get (partial get-item table)
+      :create-new (partial create-new table)
+      :update (partial update table)
+      :delete (partial delete table)  
+    }))
