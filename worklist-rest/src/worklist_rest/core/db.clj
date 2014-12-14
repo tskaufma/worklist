@@ -60,6 +60,17 @@
                                [:created :timestamp "DEFAULT CURRENT_TIMESTAMP"]
                                [:updated :timestamp]))
 
+;                           
+(sql/with-connection (db-connection)
+  (sql/create-table "tl_priority" [:id "varchar(256)" "primary key"]
+                               [:code "varchar(1024)"]
+                               [:name :varchar]
+                               [:created :timestamp "DEFAULT CURRENT_TIMESTAMP"]
+                               [:updated :timestamp]
+                               [:effective :timestamp]
+                               [:expires :timestamp]
+                               ))
+
 ;
 
 (extend-type java.sql.Timestamp
