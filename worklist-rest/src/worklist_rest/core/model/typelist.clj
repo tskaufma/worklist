@@ -49,25 +49,28 @@
     }))
 
 (def priority (make-typelist :priority))
-(map (:create-new priority) [
+(let [tl (map (:create-new priority) [
     {:code "critical" :name "Critical"}
     {:code "high" :name "High"}
     {:code "medium" :name "Medium"}
-    {:code "low" :name "Low"}])
+    {:code "low" :name "Low"}])]
+	(clojure.pprint/pprint tl))
 
 (def status (make-typelist :status))
-(map (:create-new status) [
+(let [tl (map (:create-new status) [
     {:code "open" :name "Open"}
     {:code "inprogress" :name "In-Progress"}
     {:code "waiting" :name "Waiting"}
     {:code "resolved" :name "Resolved"}
     {:code "deployed" :name "Deployed"}
-    {:code "closed" :name "Closed"}])
+    {:code "closed" :name "Closed"}])]
+	(clojure.pprint/pprint tl))
   
 (def resolution (make-typelist :resolution))
-(map (:create-new status) [
+(let [tl (map (:create-new resolution) [
     {:code "fixed" :name "Fixed"}
     {:code "rejected" :name "Rejected"}
     {:code "asdesigned" :name "As Designed"}
     {:code "wontfix" :name "Won't Fix"}
-    {:code "cantreproduce" :name "Cannot Reproduce"}])
+    {:code "cantreproduce" :name "Cannot Reproduce"}])]
+	(clojure.pprint/pprint tl))
