@@ -9,13 +9,21 @@
                 [worklist-rest.core.model.project :as proj]
                 [worklist-rest.core.model.person :as peo]
                 [worklist-rest.core.model.user :as user]
+                [worklist-rest.core.model.typelist :as tl]
                 [worklist-rest.core.model.util :refer [parse-json]]
                 [cemerick.friend :as friend]
                 (cemerick.friend [workflows :as workflows]
                                  [credentials :as creds])))
+(def list-base {
+             :base authenticated-base
+             :allowed-methods [:post :get]
+             :available-media-types ["application/json"]
+             :malformed? #(parse-json % ::data)
+             :handle-malformed (fn [ctx] 
+                                   {:error (:message ctx)})})
 
 (defresource tasks-resource
-             ;:base authenticated-base
+             :base list-base
              :allowed-methods [:post :get]
              :available-media-types ["application/json"]
              :handle-ok (fn [_] (task/get-all-tasks))
@@ -105,6 +113,14 @@
              ;;:put! #(peo/update-person id (::data %))
              )
 
+(defresource typelist-resource [typelist]
+             :base list-base
+             :allowed-methods [:get]
+             :handle-ok (fn [_] ((:get-all (condp = typelist
+                                          "priority" tl/priority
+                                          "status" tl/status
+                                          "resolution" tl/resolution)))))
+
 (defroutes app-routes
   (GET "/test" [] "TK is writing clojure code! ")
   (GET "/" [] (resp/resource-response "index.html" {:root "public"}))
@@ -117,6 +133,7 @@
                                 (ANY "/project/:id" [id] (project-resource id))
                                 (ANY "/people" [] people-resource)
                                 (ANY "/person/:id" [id] (person-resource id))
+                                (ANY "/typelist/:typelist" [typelist] (typelist-resource typelist))
                                 (GET "/user/:id" [id] (user-resource id))))
   (route/resources "/")
   (context "/app" [] (defroutes app-routes

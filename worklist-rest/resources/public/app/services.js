@@ -43,9 +43,25 @@ angular.module("worklist")
             service.currentUser = response.data;
             service.loggedIn = true;
         }).catch(function(error) {
-            $window.location.href = '/login'
+            $window.location.href = '/login';
         });
         
         return service;
+    }])
+    
+    .service ("typelistService", ["$http", function($http) {
+        var typelists = {};
+        
+        for (var typelist in ["prority", "status", "resolution"]) {
+            typelists[typelist] =  $http.get("/api/typelist/" + typelist);
+        }
+        
+        return {
+            get : function(typelist) {
+                return typelists[typelist].then(function (response) {
+                    return response.data;
+                });
+            }
+        };
     }])
 ;

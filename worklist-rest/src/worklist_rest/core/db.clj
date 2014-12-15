@@ -72,6 +72,28 @@
                                ))
 
 ;
+(sql/with-connection (db-connection)
+  (sql/create-table "tl_status" [:id "varchar(256)" "primary key"]
+                               [:code "varchar(1024)"]
+                               [:name :varchar]
+                               [:created :timestamp "DEFAULT CURRENT_TIMESTAMP"]
+                               [:updated :timestamp]
+                               [:effective :timestamp]
+                               [:expires :timestamp]
+                               ))
+
+;
+(sql/with-connection (db-connection)
+  (sql/create-table "tl_resolution" [:id "varchar(256)" "primary key"]
+                               [:code "varchar(1024)"]
+                               [:name :varchar]
+                               [:created :timestamp "DEFAULT CURRENT_TIMESTAMP"]
+                               [:updated :timestamp]
+                               [:effective :timestamp]
+                               [:expires :timestamp]
+                               ))
+
+;
 
 (extend-type java.sql.Timestamp
   json/JSONWriter
