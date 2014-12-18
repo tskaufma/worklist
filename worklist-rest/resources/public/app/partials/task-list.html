@@ -112,9 +112,9 @@
 								<td><a ng-href="#/task/{{task.id}}">{{task.key}}</a></td>
 								<td><a ng-href="#/task/{{task.id}}">{{task.title}}</a></td>
 								<td>{{task.assignee}}</td>
-								<td>{{task.priority}}</td>
-								<td>{{task.status}}</td>
-								<td>{{task.resolution}}</td>
+								<td>{{task.priority.name}}</td>
+								<td>{{task.status.name}}</td>
+								<td>{{task.resolution.name}}</td>
 								<td>{{task.created | date:'mediumDate'}}</td>
 								<td>{{task.updated | parseDate | fromNow}}</td>
 								<td>...</td>

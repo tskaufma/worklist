@@ -26,7 +26,7 @@
              :base list-base
              :allowed-methods [:post :get]
              :available-media-types ["application/json"]
-             :handle-ok (fn [_] (task/get-all-tasks))
+             :handle-ok (fn [_] (map (partial tl/wrap-typelists [:status :priority :resolution]) (task/get-all-tasks)))
              :malformed? #(parse-json % ::data)
              :post! (fn [ctx]
                         (let [body (proj/unwrapTask (get ctx ::data))
@@ -43,7 +43,7 @@
              :allowed-methods [:get :put]
              :can-put-to-missing? false
              :available-media-types ["application/json"]
-             :handle-ok (fn [_] (proj/enrichTask (task/get-task id)))
+             :handle-ok (fn [_] (tl/wrap-typelists [:status :priority :resolution] (proj/enrichTask (task/get-task id))))
              :malformed? #(parse-json % ::data)
              :new? false
              :respond-with-entity? true

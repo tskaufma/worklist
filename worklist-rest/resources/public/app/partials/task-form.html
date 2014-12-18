@@ -28,17 +28,17 @@
 
     <div class="large-12 columns">
         <label>Priority
-            <input type="text" name="priority" ng-model="newTask.priority" />
+            <select ng-model="newTask.priority" ng-options="p.id as p.name for p in priority"></select>
         </label>
     </div>
     <div class="large-12 columns">
         <label>Status
-            <input type="text" name="status" ng-model="newTask.status" />
+            <select ng-model="newTask.status" ng-options="s.id as s.name for s in status"></select>
         </label>
     </div>
     <div class="large-12 columns">
         <label>Resolution
-            <input type="text" name="resolution" ng-model="newTask.resolution" />
+            <select ng-model="newTask.resolution" ng-options="r.id as r.name for r in resolution"></select>
         </label>
     </div>
 </div>

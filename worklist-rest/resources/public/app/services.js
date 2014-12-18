@@ -50,15 +50,9 @@ angular.module("worklist")
     }])
     
     .service ("typelistService", ["$http", function($http) {
-        var typelists = {};
-        
-        for (var typelist in ["prority", "status", "resolution"]) {
-            typelists[typelist] =  $http.get("/api/typelist/" + typelist);
-        }
-        
         return {
             get : function(typelist) {
-                return typelists[typelist].then(function (response) {
+                return $http.get("/api/typelist/" + typelist).then(function (response) {
                     return response.data;
                 });
             }

@@ -38,8 +38,20 @@ angular.module("worklist.controllers", [])
 
     }])
     
-    .controller("ApplicationCtrl", ["$scope", "tkUserService", function($scope, tkUserService) {
+    .controller("ApplicationCtrl", ["$scope", "tkUserService", "typelistService", function($scope, tkUserService, typelistService) {
         $scope.user = tkUserService;
+        
+        typelistService.get("priority").then(function(typelist) {
+            $scope.priority = typelist;
+        });
+        
+        typelistService.get("status").then(function(typelist){
+            $scope.status =  typelist;
+        });
+        
+        typelistService.get("resolution").then(function(typelist) {
+            $scope.resolution = typelist;
+        });
         
     }])
 ;

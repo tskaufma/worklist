@@ -14,7 +14,7 @@
     (sql/with-query-results results
       [(str "select * from tl_" table " where id = ?") id]
       (cond
-        (empty? results) {}
+        (empty? results) nil
         :else (first results)))))
 
 (defn create-new [table doc]
@@ -49,28 +49,38 @@
     }))
 
 (def priority (make-typelist :priority))
-(let [tl (map (:create-new priority) [
+(doall (map (:create-new priority) [
     {:code "critical" :name "Critical"}
     {:code "high" :name "High"}
     {:code "medium" :name "Medium"}
-    {:code "low" :name "Low"}])]
-	(clojure.pprint/pprint tl))
+    {:code "low" :name "Low"}]))
 
 (def status (make-typelist :status))
-(let [tl (map (:create-new status) [
+(doall (map (:create-new status) [
     {:code "open" :name "Open"}
     {:code "inprogress" :name "In-Progress"}
     {:code "waiting" :name "Waiting"}
     {:code "resolved" :name "Resolved"}
     {:code "deployed" :name "Deployed"}
-    {:code "closed" :name "Closed"}])]
-	(clojure.pprint/pprint tl))
+    {:code "closed" :name "Closed"}]))
   
 (def resolution (make-typelist :resolution))
-(let [tl (map (:create-new resolution) [
+(doall (map (:create-new resolution) [
     {:code "fixed" :name "Fixed"}
     {:code "rejected" :name "Rejected"}
     {:code "asdesigned" :name "As Designed"}
     {:code "wontfix" :name "Won't Fix"}
-    {:code "cantreproduce" :name "Cannot Reproduce"}])]
-	(clojure.pprint/pprint tl))
+    {:code "cantreproduce" :name "Cannot Reproduce"}]))
+
+(defn expand-typelist [typelist entity]
+  "Gets the map representing the typelist value from the given entity"
+  (get-item (name typelist) ((keyword typelist) entity)))
+
+(defn tl-map [typelists entity]
+  "creates a sequence of typelist, typelist value pairs for this entity"
+  (map (fn [tl] (vector tl (expand-typelist tl entity))) typelists))
+
+(defn wrap-typelists [typelists entity]
+  "creates an entity which has the given typelist ids replaced by typelist value maps"
+  (reduce (fn [e [k v]] (assoc e k v)) entity (tl-map typelists entity)))
+
