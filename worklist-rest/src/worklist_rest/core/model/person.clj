@@ -1,5 +1,5 @@
 (ns worklist-rest.core.model.person
-    (:require [clojure.java.jdbc :as sql]
+    (:require [clojure.java.jdbc.deprecated :as sql]
               [worklist-rest.core.util :as util]
               [worklist-rest.core.db :refer [db-connection]]))
 

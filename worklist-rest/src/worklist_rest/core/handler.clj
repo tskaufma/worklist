@@ -29,7 +29,7 @@
              :handle-ok (fn [_] (map (partial tl/wrap-typelists [:status :priority :resolution]) (task/get-all-tasks)))
              :malformed? #(parse-json % ::data)
              :post! (fn [ctx]
-                        (let [body (proj/unwrapTask (get ctx ::data))
+                        (let [body (tl/unwrap-typelists [:status :priority :resolution] (proj/unwrapTask (get ctx ::data)))
                               task (task/create-new-task body)]
                             (clojure.pprint/pprint task)
                             {::id (get-in task [:id])}))
@@ -47,7 +47,7 @@
              :malformed? #(parse-json % ::data)
              :new? false
              :respond-with-entity? true
-             :put! #(task/update-task id (proj/unwrapTask (::data %))))
+             :put! #(task/update-task id (tl/unwrap-typelists [:status :priority :resolution] (proj/unwrapTask (::data %)))))
          
 (defresource projects-resource
              :allowed-methods [:post :get]

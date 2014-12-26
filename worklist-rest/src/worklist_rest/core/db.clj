@@ -1,6 +1,6 @@
 (ns worklist-rest.core.db
     (:import com.mchange.v2.c3p0.ComboPooledDataSource)
-    (:require [clojure.java.jdbc :as sql]
+    (:require [clojure.java.jdbc.deprecated :as sql]
               [worklist-rest.config :refer [db-config]]
               [clojure.data.json :as json]))
 

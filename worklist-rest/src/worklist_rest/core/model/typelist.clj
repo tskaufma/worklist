@@ -1,5 +1,5 @@
 (ns worklist-rest.core.model.typelist
-    (:require [clojure.java.jdbc :as sql]
+    (:require [clojure.java.jdbc.deprecated :as sql]
               [worklist-rest.core.util :as util]
               [worklist-rest.core.db :refer [db-connection]]))
   
@@ -78,9 +78,12 @@
 
 (defn tl-map [typelists entity]
   "creates a sequence of typelist, typelist value pairs for this entity"
-  (map (fn [tl] (vector tl (expand-typelist tl entity))) typelists))
+  (map (juxt identity #(expand-typelist % entity)) typelists))
 
 (defn wrap-typelists [typelists entity]
   "creates an entity which has the given typelist ids replaced by typelist value maps"
   (reduce (fn [e [k v]] (assoc e k v)) entity (tl-map typelists entity)))
 
+(defn unwrap-typelists [typelists entity]
+  "creates an entity which has the given typelist values replaced by typelist ids"
+  (reduce (fn [e typelist] (assoc e (name typelist) (get-in e [(name typelist) "id"])) entity typelists)))
