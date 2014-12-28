@@ -28,17 +28,17 @@
 
     <div class="large-12 columns">
         <label>Priority
-            <select ng-model="newTask.priority" ng-options="p.id as p.name for p in priority"></select>
+            <select ng-model="newTask.priority" ng-options="p.name for p in priority track by p.id"></select>
         </label>
     </div>
     <div class="large-12 columns">
         <label>Status
-            <select ng-model="newTask.status" ng-options="s.id as s.name for s in status"></select>
+            <select ng-model="newTask.status" ng-options="s.name for s in status track by s.id"></select>
         </label>
     </div>
     <div class="large-12 columns">
         <label>Resolution
-            <select ng-model="newTask.resolution" ng-options="r.id as r.name for r in resolution"></select>
+            <select ng-model="newTask.resolution" ng-options="r.name for r in resolution track by r.id"></select>
         </label>
     </div>
 </div>

@@ -2,7 +2,7 @@
     (:require [clojure.java.jdbc.deprecated :as sql]
               [worklist-rest.core.util :as util]
               [worklist-rest.core.db :refer [db-connection]]))
-  
+
 (defn get-all [table ]
   (sql/with-connection (db-connection)
     (sql/with-query-results results
@@ -36,7 +36,7 @@
     (sql/delete-rows (str "tl_" table) ["id=?" id]))
   {:success true})
 
-(defn make-typelist 
+(defn make-typelist
   "makes a map to work with the named typelist"
   [table-name]
   (let [table (if (keyword? table-name) (name table-name) (str table-name))]
@@ -45,7 +45,7 @@
       :get (partial get-item table)
       :create-new (partial create-new table)
       :update (partial update table)
-      :delete (partial delete table)  
+      :delete (partial delete table)
     }))
 
 (def priority (make-typelist :priority))
@@ -63,7 +63,7 @@
     {:code "resolved" :name "Resolved"}
     {:code "deployed" :name "Deployed"}
     {:code "closed" :name "Closed"}]))
-  
+
 (def resolution (make-typelist :resolution))
 (doall (map (:create-new resolution) [
     {:code "fixed" :name "Fixed"}
@@ -86,4 +86,7 @@
 
 (defn unwrap-typelists [typelists entity]
   "creates an entity which has the given typelist values replaced by typelist ids"
-  (reduce (fn [e typelist] (assoc e (name typelist) (get-in e [(name typelist) "id"])) entity typelists)))
+  (reduce (fn [e typelist]
+            (assoc e (name typelist) (get-in e [(name typelist) "id"])))
+          entity
+          typelists))
